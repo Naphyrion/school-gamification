@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
+use Freshwork\RutField\RutField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Student extends Resource
@@ -50,7 +51,7 @@ class Student extends Resource
             Number::make('Enrollment'),
             BelongsTo::make('Classroom'),
             Number::make('List Number'),
-            Text::make('Run'),
+            RutField::make('run')->rules('required|cl_rut'),
             Text::make('names'),
             Text::make('Last Name 1'),
             Text::make('Last Name 2'),
