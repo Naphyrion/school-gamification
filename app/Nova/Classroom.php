@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Classroom extends Resource
@@ -31,6 +32,7 @@ class Classroom extends Resource
      */
     public static $search = [
         'id',
+        'name',
     ];
 
     /**
@@ -43,8 +45,13 @@ class Classroom extends Resource
     {
         return [
             ID::make()->sortable(),
-            BelongsTo::make('grade'),
-            Text::make('name'),
+
+            BelongsTo::make('Grade'),
+            
+            Text::make('name')
+                ->rules('required', 'max:255'),
+
+            HasMany::make('Students'),
         ];
     }
 

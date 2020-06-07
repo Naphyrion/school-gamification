@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
 use Freshwork\RutField\RutField;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Carbon\Carbon;
 
 class Student extends Resource
 {
@@ -47,24 +48,56 @@ class Student extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-            Number::make('Enrollment'),
+            //ID::make()->sortable(),
+
+            Number::make('Enrollment')
+                ->rules('unique:students')
+                ->hideWhenCreating(),
+
             BelongsTo::make('Classroom'),
-            Number::make('List Number'),
-            RutField::make('run')->rules('required|cl_rut'),
-            Text::make('names'),
-            Text::make('Last Name 1'),
+
+            Number::make('List Number')
+                ->hideWhenCreating()
+                ->sortable(),
+
+            RutField::make('run')
+                ->rules('required','cl_rut', 'unique:students')
+                ->hideFromIndex(),
+
+            Text::make('names')
+                ->rules('required'),
+
+            Text::make('Last Name 1')
+                ->rules('required')
+                ->sortable(),
+
             Text::make('Last Name 2'),
+
             Select::make('Gender')
                 ->options([
                     'F' => 'Femenino',
                     'M' => 'Masculino',
-            ]),
-            Date::make('Birthday'),
-            Text::make('Address'),
-            Date::make('Enroll Date'),
-            Date::make('Withdraw Date'),
-            Textarea::make('Withdrawal Reason'),
+                ])
+                ->rules('required'),
+
+            Date::make('Birthday')
+                ->rules('required'),
+
+            Text::make('Address')
+                ->hideFromIndex(),
+
+            Date::make('Enroll Date')
+                ->rules('required')
+                ->default(Carbon::now())
+                ->hideFromIndex(),
+
+            Date::make('Withdraw Date')
+                ->hideWhenCreating()
+                ->hideFromIndex(),
+            
+            Textarea::make('Withdrawal Reason')
+                ->hideWhenCreating()
+                ->hideFromIndex(),
 
         ];
     }

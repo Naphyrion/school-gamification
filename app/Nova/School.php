@@ -43,12 +43,20 @@ class School extends Resource
     {
         return [
             ID::make()->sortable(),
-            Hidden::make('User', 'user_id')->default(function ($request) {
-                return $request->user()->id;
+
+            Hidden::make('User', 'user_id')
+                ->default(function ($request) {
+                    return $request->user()->id;
             }),
-            Text::make('rbd')->rules('required','unique:schools'),
-            Text::make('name'),
-            Text::make('address'),
+
+            Text::make('rbd')
+                ->rules('required','unique:schools', 'regex:/\d-\d/m'),
+
+            Text::make('name')
+                ->rules('required', 'max:255'),
+
+            Text::make('address')
+                ->rules('max:255'),
 
         ];
     }

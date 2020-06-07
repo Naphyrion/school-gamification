@@ -18,9 +18,9 @@ class CreateStudentsTable extends Migration
 
             $table->foreignId('classroom_id')->constrained();
 
-            $table->Integer('enrollment')->unsigned();
+            $table->Integer('enrollment')->unsigned()->nullable()->unique();
             $table->integer('list_number')->nullable();
-            $table->string('run');
+            $table->string('run')->unique();
             $table->string('last_name_1');
             $table->string('last_name_2')->nullable();
             $table->string('names');

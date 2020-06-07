@@ -20,7 +20,7 @@ class CreateSchoolsTable extends Migration
            
             $table->string('name');
             $table->string('rbd')->unique();
-            $table->string('address');
+            $table->string('address')->nullable();
 
             $table->timestamps();
         });

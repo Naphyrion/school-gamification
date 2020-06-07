@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Carbon\Carbon;
 
 class Grade extends Resource
 {
@@ -32,6 +33,7 @@ class Grade extends Resource
      */
     public static $search = [
         'id',
+        'name',
     ];
 
     /**
@@ -45,9 +47,15 @@ class Grade extends Resource
         return [
             
             ID::make()->sortable(),
+
             BelongsTo::make('School'),
-            Number::make('year'),
-            Text::make('name'),
+
+            Number::make('year')
+                ->rules('required', 'min:4', 'max:4')
+                ->default(Carbon::now()->year),
+
+            Text::make('name')
+                ->rules('required', 'max:255'),
         ];
     }
 
