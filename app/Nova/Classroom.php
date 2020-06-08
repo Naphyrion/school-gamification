@@ -44,7 +44,7 @@ class Classroom extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            //ID::make()->sortable(),
 
             BelongsTo::make('Grade'),
             

@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Freshwork\RutField\RutField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class Student extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'full_name';
 
     /**
      * The columns that should be searched.
@@ -36,7 +37,11 @@ class Student extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'enrollment',
+        'names',
+        'last_name_1',
+        'last_name_2',
+        'run',
     ];
 
     /**
@@ -51,7 +56,8 @@ class Student extends Resource
             //ID::make()->sortable(),
 
             Number::make('Enrollment')
-                ->rules('unique:students')
+                ->creationRules('unique:students')
+                ->updateRules('unique:students,enrollment,{{resourceId}}')
                 ->hideWhenCreating(),
 
             BelongsTo::make('Classroom'),
@@ -61,7 +67,9 @@ class Student extends Resource
                 ->sortable(),
 
             RutField::make('run')
-                ->rules('required','cl_rut', 'unique:students')
+                ->rules('required','cl_rut')
+                ->creationRules('unique:students')
+                ->updateRules('unique:students,run,{{resourceId}}')
                 ->hideFromIndex(),
 
             Text::make('names')
@@ -90,7 +98,7 @@ class Student extends Resource
                 ->rules('required')
                 ->default(Carbon::now())
                 ->hideFromIndex(),
-
+            
             Date::make('Withdraw Date')
                 ->hideWhenCreating()
                 ->hideFromIndex(),
@@ -98,6 +106,9 @@ class Student extends Resource
             Textarea::make('Withdrawal Reason')
                 ->hideWhenCreating()
                 ->hideFromIndex(),
+            
+            Boolean::make('enrolled')
+                ->onlyOnIndex(),
 
         ];
     }
@@ -143,6 +154,8 @@ class Student extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new Actions\EnrollmentNumber(),
+        ];
     }
 }
