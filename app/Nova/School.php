@@ -5,7 +5,6 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class School extends Resource
@@ -43,11 +42,6 @@ class School extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Hidden::make('User', 'user_id')
-                ->default(function ($request) {
-                    return $request->user()->id;
-            }),
 
             Text::make('rbd')
                 ->rules('required','unique:schools', 'regex:/\d-\d/m'),
