@@ -91,6 +91,9 @@ class Student extends Resource
             Date::make('Birthday')
                 ->rules('required'),
 
+            Text::make('Email')
+                    ->rules('email'),
+
             Text::make('Address')
                 ->hideFromIndex(),
 

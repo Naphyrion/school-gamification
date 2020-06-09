@@ -1,0 +1,1 @@
+<a class="no-underline font-bold dim text-primary" href="{{$url}}">{{$name}}</a>

@@ -5,29 +5,25 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Teacher;
 
-class Classroom extends Resource
+class Subject extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Classroom::class;
+    public static $model = \App\Subject::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'classroom_name';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -36,7 +32,6 @@ class Classroom extends Resource
      */
     public static $search = [
         'id',
-        'name',
     ];
 
     /**
@@ -47,26 +42,31 @@ class Classroom extends Resource
      */
     public function fields(Request $request)
     {
+        if(isset($this->pivot->teacher_id)) {
+            return [
+                ID::make()->sortable(),
+
+                Text::make('name'),
+
+                Text::make('description'),
+
+                Text::make('Teacher', function(){
+                    return view('link.router', [
+                                'name' => Teacher::find($this->pivot->teacher_id)->teacher_name,
+                                'url' => url('nova/resources/teachers/'.$this->pivot->teacher_id),
+                            ])->render();})
+                        ->onlyOnIndex()
+                        ->asHtml(),
+
+                Boolean::make('Head Teacher', function(){
+                    return $this->pivot->head_teacher;
+                })->onlyOnIndex(),
+            ];
+        }
         return [
-            //ID::make()->sortable(),
-
-            BelongsTo::make('Grade'),
-            
-            Text::make('name')
-                ->rules('required', 'max:255'),
-
-            BelongsToMany::make('Subjects')
-                ->fields(function () {
-
-                    $teachers = Teacher::all()->pluck('teacher_name', 'id');
-
-                    return [
-                        Select::make('Teacher', 'teacher_id')->options($teachers),
- 
-                        Boolean::make('Head Teacher'),
-                    ];
-                }),
-            HasMany::make('Students'),
+            ID::make()->sortable(),
+            Text::make('name'),
+            Text::make('description'),
         ];
     }
 

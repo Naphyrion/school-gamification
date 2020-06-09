@@ -17,6 +17,7 @@ class CreateStudentsTable extends Migration
             $table->id();
 
             $table->foreignId('classroom_id')->constrained();
+            $table->foreignId('user_id')->constrained()->nullable();
 
             $table->Integer('enrollment')->unsigned()->nullable()->unique();
             $table->integer('list_number')->nullable();
@@ -26,6 +27,7 @@ class CreateStudentsTable extends Migration
             $table->string('names');
             $table->string('gender');
             $table->date('birthday');
+            $table->string('email')->unique()->nullable();
             $table->date('enroll_date');
             $table->string('address')->nullable();
             $table->date('withdraw_date')->nullable();

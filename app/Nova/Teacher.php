@@ -4,30 +4,26 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Text;
+use Freshwork\RutField\RutField;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Teacher;
 
-class Classroom extends Resource
+class Teacher extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Classroom::class;
+    public static $model = \App\Teacher::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'classroom_name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -36,7 +32,6 @@ class Classroom extends Resource
      */
     public static $search = [
         'id',
-        'name',
     ];
 
     /**
@@ -48,25 +43,33 @@ class Classroom extends Resource
     public function fields(Request $request)
     {
         return [
-            //ID::make()->sortable(),
+            ID::make()->sortable(),
 
-            BelongsTo::make('Grade'),
-            
-            Text::make('name')
+            BelongsTo::make('School'),
+
+            Text::make('Names')
                 ->rules('required', 'max:255'),
 
-            BelongsToMany::make('Subjects')
-                ->fields(function () {
+            Text::make('Last Name 1')
+                ->rules('required', 'max:255'),
 
-                    $teachers = Teacher::all()->pluck('teacher_name', 'id');
+            Text::make('Last Name 2')
+                ->rules('max:255'),
 
-                    return [
-                        Select::make('Teacher', 'teacher_id')->options($teachers),
- 
-                        Boolean::make('Head Teacher'),
-                    ];
-                }),
-            HasMany::make('Students'),
+            RutField::make('run')
+                ->rules('required','cl_rut')
+                ->creationRules('unique:students')
+                ->updateRules('unique:students,run,{{resourceId}}')
+                ->hideFromIndex(),
+            
+            Text::make('Address')
+                ->rules('max:255'),
+
+            Text::make('Phone Number'),
+
+            Text::make('Email')
+                ->rules('email'),
+            
         ];
     }
 

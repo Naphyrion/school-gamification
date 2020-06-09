@@ -17,10 +17,16 @@ class CreateTeachersTable extends Migration
             $table->id();
 
             $table->foreignId('school_id')->constrained();
-            $table->string('name');
+            $table->foreignId('user_id')->nullable()->constrained();
+
+            $table->string('names');
             $table->string('last_name_1');
             $table->string('last_name_2')->nullable();
+            $table->string('run')->unique();
             $table->string('address')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->unique()->nullable();
+
             $table->timestamps();
         });
     }
