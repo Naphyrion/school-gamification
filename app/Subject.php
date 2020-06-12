@@ -12,7 +12,8 @@ class Subject extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 
+        'description'
     ];
 
     public function classrooms()

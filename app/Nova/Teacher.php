@@ -32,6 +32,11 @@ class Teacher extends Resource
      */
     public static $search = [
         'id',
+        'names',
+        'last_name_1',
+        'last_name_2',
+        'run',
+        'email',
     ];
 
     /**

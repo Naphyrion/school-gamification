@@ -12,7 +12,8 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'enrollment', 'list_number',
+        'enrollment', 
+        'list_number',
     ];
 
     protected $casts = [
