@@ -43,6 +43,31 @@ class Student extends Resource
         'last_name_2',
         'run',
     ];
+    
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if($request->user()->hasRole('Super Admin')){
+
+            return $query;
+
+        }
+        if(isset($request->user()->teacher)){
+            
+            $classroomsId = $request->user()->teacher->classrooms()->pluck('classroom_id');
+            return $query->whereIn('classroom_id',$classroomsId);
+        }
+        
+        return $query->where('id', $request->user()->student->id);
+    
+       
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -112,6 +137,8 @@ class Student extends Resource
             
             Boolean::make('enrolled')
                 ->onlyOnIndex(),
+
+            BelongsTo::make('User'),
 
         ];
     }

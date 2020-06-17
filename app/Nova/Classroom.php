@@ -40,6 +40,28 @@ class Classroom extends Resource
     ];
 
     /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if($request->user()->hasRole('Super Admin')){
+
+            return $query;
+
+        }
+
+        return $query->whereHas('teachers', function ($query) use ($request){
+
+            $query->where('teacher_id', $request->user()->teacher->id);
+            
+        });
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request

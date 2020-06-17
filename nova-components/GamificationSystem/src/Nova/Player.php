@@ -1,30 +1,36 @@
 <?php
 
-namespace App\Nova;
+namespace Naphyrion\GamificationSystem\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Carbon\Carbon;
 
-class Grade extends Resource
+class Player extends \App\Nova\Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Grade::class;
+    public static $model = \Naphyrion\GamificationSystem\Models\Player::class;
+
+       /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -33,7 +39,6 @@ class Grade extends Resource
      */
     public static $search = [
         'id',
-        'name',
     ];
 
     /**
@@ -45,17 +50,10 @@ class Grade extends Resource
     public function fields(Request $request)
     {
         return [
-            
             ID::make()->sortable(),
-
-            BelongsTo::make('School'),
-
-            Number::make('year')
-                ->rules('required', 'min:4', 'max:4')
-                ->default(Carbon::now()->year),
-
-            Text::make('name')
-                ->rules('required', 'max:255'),
+            BelongsTo::make('Student', 'student', '\App\Nova\Student'),
+            Avatar::make('Avatar'),
+            Number::make('Points'),
         ];
     }
 
@@ -101,21 +99,5 @@ class Grade extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Determine if this resource is available for navigation.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    public static function availableForNavigation(Request $request)
-    {
-        if($request->user()->hasRole('Super Admin')){
-
-            return true;
-
-        }
-        return false;
     }
 }

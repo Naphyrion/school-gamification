@@ -4,8 +4,8 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
 use Freshwork\RutField\RutField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -50,8 +50,6 @@ class Teacher extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('School'),
-
             Text::make('Names')
                 ->rules('required', 'max:255'),
 
@@ -74,6 +72,8 @@ class Teacher extends Resource
 
             Text::make('Email')
                 ->rules('email'),
+
+            BelongsTo::make('User'),
             
         ];
     }

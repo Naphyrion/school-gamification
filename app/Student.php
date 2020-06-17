@@ -26,6 +26,11 @@ class Student extends Model
         return $this->belongsTo('App\Classroom');
     }
     
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+    
     public function getFullNameAttribute()
     {
         return $this->names . ' ' . $this->last_name_1 . ' ' . $this->last_name_2;
@@ -34,6 +39,15 @@ class Student extends Model
     public function getEnrolledAttribute()
     {
         return $this->withdraw_date == '';
+    }
+
+
+
+    //gamification system
+
+    public function player()
+    {
+        return $this->hasOne('Naphyrion\GamificationSystem\Models\Player');
     }
         
 }
