@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAchievementStudentTable extends Migration
+class CreateCompetencePlayerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAchievementStudentTable extends Migration
      */
     public function up()
     {
-        Schema::create('achievement_student', function (Blueprint $table) {
+        Schema::create('competence_player', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('achievement_id')->constrained();
-            $table->foreignId('student_id')->constrained();
-            $table->integer('points_earned');
-            $table->timestamp('unlocked_at')->nullable()->default(null);
+            $table->foreignId('competence_id')->constrained();
+            $table->foreignId('player_id')->constrained();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAchievementStudentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('achievement_student');
+        Schema::dropIfExists('competence_player');
     }
 }

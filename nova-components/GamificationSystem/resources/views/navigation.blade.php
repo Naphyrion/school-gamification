@@ -16,5 +16,35 @@
                         Players
                     </router-link>
                 </li>
+                <li class="leading-tight mb-4 ml-8 text-sm">
+                    <router-link :to="{
+                        name: 'index',
+                        params: {
+                            resourceName: 'competences'
+                        }
+                    }" class="text-white text-justify no-underline dim">
+                        Competences
+                    </router-link>
+                </li>
+                <li class="leading-tight mb-4 ml-8 text-sm">
+                    <router-link :to="{
+                        name: 'index',
+                        params: {
+                            resourceName: 'achievements'
+                        }
+                    }" class="text-white text-justify no-underline dim">
+                        Achievements
+                    </router-link>
+                </li>
+                <li class="leading-tight mb-4 ml-8 text-sm">
+                    <router-link :to="{
+                        name: 'index',
+                        params: {
+                            resourceName: 'tags'
+                        }
+                    }" class="text-white text-justify no-underline dim">
+                        Tags
+                    </router-link>
+                </li>
         
         </ul>

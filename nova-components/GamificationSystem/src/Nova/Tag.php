@@ -2,24 +2,19 @@
 
 namespace Naphyrion\GamificationSystem\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Achievement extends \App\Nova\Resource
+class Tag extends \App\Nova\Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \Naphyrion\GamificationSystem\Models\Achievement::class;
+    public static $model = \Naphyrion\GamificationSystem\Models\Tag::class;
 
     /**
      * Indicates if the resource should be displayed in the sidebar.
@@ -42,7 +37,6 @@ class Achievement extends \App\Nova\Resource
      */
     public static $search = [
         'id',
-        'name',
     ];
 
     /**
@@ -56,18 +50,7 @@ class Achievement extends \App\Nova\Resource
         return [
             ID::make()->sortable(),
 
-            Avatar::make('Image'),
-
-            Text::make('Name'),
-
-            Text::make('Description'),
-
-            Number::make('Points to unlock'),
-
-            Boolean::make('Secret'),
-
-            MorphToMany::make('Tags'),
-            
+            Text::make('name'),
         ];
     }
 

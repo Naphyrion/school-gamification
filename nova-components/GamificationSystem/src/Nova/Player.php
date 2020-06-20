@@ -2,11 +2,13 @@
 
 namespace Naphyrion\GamificationSystem\Nova;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Player extends \App\Nova\Resource
@@ -18,7 +20,7 @@ class Player extends \App\Nova\Resource
      */
     public static $model = \Naphyrion\GamificationSystem\Models\Player::class;
 
-       /**
+    /**
      * Indicates if the resource should be displayed in the sidebar.
      *
      * @var bool
@@ -54,6 +56,14 @@ class Player extends \App\Nova\Resource
             BelongsTo::make('Student', 'student', '\App\Nova\Student'),
             Avatar::make('Avatar'),
             Number::make('Points'),
+            BelongsToMany::make('Competences'),
+            BelongsToMany::make('Achievements')->fields(function () {
+                return [
+                    Number::make('Points Earned'),
+
+                    DateTime::make('Unlocked At')
+                ];
+            }),
         ];
     }
 
