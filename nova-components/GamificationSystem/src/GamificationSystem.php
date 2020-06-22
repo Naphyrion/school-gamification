@@ -20,6 +20,7 @@ class GamificationSystem extends Tool
         Nova::resources([
             \Naphyrion\GamificationSystem\Nova\Player::class,
             \Naphyrion\GamificationSystem\Nova\Competence::class,
+            \Naphyrion\GamificationSystem\Nova\CompetenceBoard::class,
             \Naphyrion\GamificationSystem\Nova\Achievement::class,
             \Naphyrion\GamificationSystem\Nova\Tag::class,
         ]);

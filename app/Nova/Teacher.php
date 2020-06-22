@@ -23,7 +23,7 @@ class Teacher extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'full_name';
 
     /**
      * The columns that should be searched.
@@ -73,7 +73,7 @@ class Teacher extends Resource
             Text::make('Email')
                 ->rules('email'),
 
-            BelongsTo::make('User'),
+            BelongsTo::make('User')->nullable(),
             
         ];
     }

@@ -6,15 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
 {
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'points', 
+    ];
+
     public function student()
     {
         return $this->belongsTo('\App\Student');
     }
 
-    public function competences()
-    {
-        return $this->belongsToMany('Naphyrion\GamificationSystem\Models\Competence');
-    }
     public function achievements()
     {
         return $this->belongsToMany('Naphyrion\GamificationSystem\Models\Achievement')
@@ -23,4 +28,13 @@ class Player extends Model
                         ->withTimestamps();
     }
 
+    public function competenceBoards()
+    {
+        return $this->hasMany('Naphyrion\GamificationSystem\Models\CompetenceBoard');
+    }
+
+    public function getStudentNameAttribute()
+    {
+        return $this->student->full_name;
+    }
 }

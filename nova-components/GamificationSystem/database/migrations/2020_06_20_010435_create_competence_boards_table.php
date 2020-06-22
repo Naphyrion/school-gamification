@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompetencePlayerTable extends Migration
+class CreateCompetenceBoardsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateCompetencePlayerTable extends Migration
      */
     public function up()
     {
-        Schema::create('competence_player', function (Blueprint $table) {
+        Schema::create('competence_boards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('competence_id')->constrained();
             $table->foreignId('player_id')->constrained();
+            $table->foreignId('competence_id')->constrained();
+            $table->foreignId('teacher_id')->constrained();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateCompetencePlayerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('competence_player');
+        Schema::dropIfExists('competence_boards');
     }
 }

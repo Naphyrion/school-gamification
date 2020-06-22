@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Boolean;
 use Freshwork\RutField\RutField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Carbon\Carbon;
+use Laravel\Nova\Fields\HasOne;
 
 class Student extends Resource
 {
@@ -138,8 +139,10 @@ class Student extends Resource
             Boolean::make('enrolled')
                 ->onlyOnIndex(),
 
-            BelongsTo::make('User'),
+            BelongsTo::make('User')
+                ->nullable(),
 
+            HasOne::make('Player', 'player', 'Naphyrion\GamificationSystem\Nova\Player'),
         ];
     }
 

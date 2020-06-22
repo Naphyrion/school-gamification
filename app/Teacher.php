@@ -27,7 +27,7 @@ class Teacher extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function getTeacherNameAttribute()
+    public function getFullNameAttribute()
     {
         return $this->names . ' ' . $this->last_name_1 . ' ' . $this->last_name_2;
     }

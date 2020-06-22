@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Player extends \App\Nova\Resource
@@ -32,7 +33,7 @@ class Player extends \App\Nova\Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'student_name';
 
     /**
      * The columns that should be searched.
@@ -56,7 +57,7 @@ class Player extends \App\Nova\Resource
             BelongsTo::make('Student', 'student', '\App\Nova\Student'),
             Avatar::make('Avatar'),
             Number::make('Points'),
-            BelongsToMany::make('Competences'),
+            HasMany::make('CompetenceBoards'),
             BelongsToMany::make('Achievements')->fields(function () {
                 return [
                     Number::make('Points Earned'),

@@ -4,24 +4,20 @@ namespace Naphyrion\GamificationSystem\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Avatar;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
-use Illuminate\Support\Facades\Log;
-use Laravel\Nova\Fields\MorphToMany;
-use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Achievement extends \App\Nova\Resource
+class CompetenceBoard extends \App\Nova\Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \Naphyrion\GamificationSystem\Models\Achievement::class;
+
+    public static $model = \Naphyrion\GamificationSystem\Models\CompetenceBoard::class;
 
     /**
      * Indicates if the resource should be displayed in the sidebar.
@@ -35,7 +31,7 @@ class Achievement extends \App\Nova\Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -44,7 +40,6 @@ class Achievement extends \App\Nova\Resource
      */
     public static $search = [
         'id',
-        'name',
     ];
 
     /**
@@ -57,19 +52,15 @@ class Achievement extends \App\Nova\Resource
     {
         return [
             ID::make()->sortable(),
-
-            Avatar::make('Image'),
-
-            Text::make('Name'),
-
-            Text::make('Description'),
-
-            Number::make('Points to unlock'),
-
-            Boolean::make('Secret'),
-
-            MorphToMany::make('Tags'),
-            
+            BelongsTo::make('Player'),
+            BelongsTo::make('Teacher', 'teacher', '\App\Nova\Teacher'),
+            BelongsTo::make('Competence'),
+            Number::make('Points', 'competence_points')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+            DateTime::make('Created At')
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
         ];
     }
 
@@ -115,27 +106,5 @@ class Achievement extends \App\Nova\Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    /**
-     * Build an "index" query for the given resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        $viaResource = $request->viaResource;
- 
-        if($viaResource == 'players'){
-            return $query->whereHas('players', function(Builder $q){
-                $q->where('unlocked_at', '!=', null);
-            });
-        }
-        
-        //return $query->where('secret','=',false);
-
-        return $query;
     }
 }

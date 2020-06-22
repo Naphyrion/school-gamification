@@ -2,11 +2,13 @@
 
 namespace Naphyrion\GamificationSystem;
 
+use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Events\ServingNova;
-use Laravel\Nova\Nova;
+use Naphyrion\GamificationSystem\Models\CompetenceBoard;
 use Naphyrion\GamificationSystem\Http\Middleware\Authorize;
+use Naphyrion\GamificationSystem\Observers\CompetenceBoardObserver;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,8 @@ class ToolServiceProvider extends ServiceProvider
         Nova::serving(function (ServingNova $event) {
             //
         });
+
+        CompetenceBoard::observe(CompetenceBoardObserver::class);
     }
 
     /**
