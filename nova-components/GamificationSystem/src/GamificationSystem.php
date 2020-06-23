@@ -21,6 +21,7 @@ class GamificationSystem extends Tool
             \Naphyrion\GamificationSystem\Nova\Player::class,
             \Naphyrion\GamificationSystem\Nova\Competence::class,
             \Naphyrion\GamificationSystem\Nova\CompetenceBoard::class,
+            \Naphyrion\GamificationSystem\Nova\CompetenceType::class,
             \Naphyrion\GamificationSystem\Nova\Achievement::class,
             \Naphyrion\GamificationSystem\Nova\Tag::class,
         ]);

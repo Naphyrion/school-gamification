@@ -12,4 +12,9 @@ class Competence extends Model
     {
         return $this->morphToMany('Naphyrion\GamificationSystem\Models\Tag', 'taggable');
     }
+
+    public function competenceType()
+    {
+        return $this->belongsTo('Naphyrion\GamificationSystem\Models\CompetenType');
+    }
 }

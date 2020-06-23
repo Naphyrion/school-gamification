@@ -40,6 +40,16 @@
                     <router-link :to="{
                         name: 'index',
                         params: {
+                            resourceName: 'competence-types'
+                        }
+                    }" class="text-white text-justify no-underline dim">
+                        Competence Types
+                    </router-link>
+                </li>
+                <li class="leading-tight mb-4 ml-8 text-sm">
+                    <router-link :to="{
+                        name: 'index',
+                        params: {
                             resourceName: 'achievements'
                         }
                     }" class="text-white text-justify no-underline dim">

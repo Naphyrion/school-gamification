@@ -53,7 +53,7 @@ class Subject extends Resource
 
                 Text::make('Teacher', function(){
                     return view('link.router', [
-                                'name' => Teacher::find($this->pivot->teacher_id)->teacher_name,
+                                'name' => Teacher::find($this->pivot->teacher_id)->full_name,
                                 'url' => url('nova/resources/teachers/'.$this->pivot->teacher_id),
                             ])->render();})
                         ->onlyOnIndex()

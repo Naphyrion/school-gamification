@@ -62,7 +62,7 @@ class Teacher extends Resource
             RutField::make('run')
                 ->rules('required','cl_rut')
                 ->creationRules('unique:students')
-                ->updateRules('unique:students,run,{{resourceId}}')
+                ->updateRules('unique:teachers,run,{{resourceId}}')
                 ->hideFromIndex(),
             
             Text::make('Address')

@@ -1,33 +1,34 @@
 <?php
 
-namespace App\Nova;
+namespace Naphyrion\GamificationSystem\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Teacher;
 
-class Classroom extends Resource
+class CompetenceType extends \App\Nova\Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Classroom::class;
+    public static $model = \Naphyrion\GamificationSystem\Models\CompetenceType::class;
 
+     /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
+    
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'classroom_name';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -40,28 +41,6 @@ class Classroom extends Resource
     ];
 
     /**
-     * Build an "index" query for the given resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        if($request->user()->hasRole('Super Admin')){
-
-            return $query;
-
-        }
-
-        return $query->whereHas('teachers', function ($query) use ($request){
-
-            $query->where('teacher_id', $request->user()->teacher->id);
-            
-        });
-    }
-
-    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -70,25 +49,11 @@ class Classroom extends Resource
     public function fields(Request $request)
     {
         return [
-            //ID::make()->sortable(),
+            ID::make()->sortable(),
 
-            BelongsTo::make('Grade'),
-            
-            Text::make('name')
-                ->rules('required', 'max:255'),
+            Text::make('Name'),
 
-            BelongsToMany::make('Subjects')
-                ->fields(function () {
-
-                    $teachers = Teacher::all()->pluck('full_name', 'id');
-
-                    return [
-                        Select::make('Teacher', 'teacher_id')->options($teachers),
- 
-                        Boolean::make('Head Teacher'),
-                    ];
-                }),
-            HasMany::make('Students'),
+            Text::make('Description'),
         ];
     }
 
