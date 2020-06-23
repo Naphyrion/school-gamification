@@ -54,10 +54,16 @@ class Player extends \App\Nova\Resource
     {
         return [
             ID::make()->sortable(),
+
             BelongsTo::make('Student', 'student', '\App\Nova\Student'),
+
             Avatar::make('Avatar'),
-            Number::make('Points'),
+
+            Number::make('Points')
+                ->default(0),
+                
             HasMany::make('CompetenceBoards'),
+
             BelongsToMany::make('Achievements')->fields(function () {
                 return [
                     Number::make('Points Earned'),
