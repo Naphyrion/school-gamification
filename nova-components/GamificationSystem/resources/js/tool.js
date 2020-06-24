@@ -3,7 +3,7 @@ Nova.booting((Vue, router, store) => {
     {
       name: 'gamification-system',
       path: '/gamification-system',
-      component: require('./components/Tool'),
+      component: require('./components/Classroom'),
     },
   ])
 })
