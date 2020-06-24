@@ -2,16 +2,17 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use App\Teacher;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Teacher;
 
 class Classroom extends Resource
 {
@@ -72,10 +73,21 @@ class Classroom extends Resource
         return [
             //ID::make()->sortable(),
 
-            BelongsTo::make('Grade'),
+            Text::make('Classroom Name')
+                ->onlyOnIndex(),
+            
+            Number::make('Students Count')
+                ->onlyOnIndex(),
+            
+            Number::make('Withdraw Students Count')
+                ->onlyOnIndex(),
+                
+            BelongsTo::make('Grade')
+                ->hideFromIndex(),
             
             Text::make('name')
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->hideFromIndex(),
 
             BelongsToMany::make('Subjects')
                 ->fields(function () {

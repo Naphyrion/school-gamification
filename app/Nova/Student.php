@@ -98,27 +98,31 @@ class Student extends Resource
                 ->updateRules('unique:students,run,{{resourceId}}')
                 ->hideFromIndex(),
 
-            Text::make('names')
-                ->rules('required'),
-
             Text::make('Last Name 1')
                 ->rules('required')
                 ->sortable(),
 
-            Text::make('Last Name 2'),
+            Text::make('Last Name 2')
+                ->nullable(),
+
+            Text::make('names')
+                ->rules('required'),
 
             Select::make('Gender')
                 ->options([
                     'F' => 'Femenino',
                     'M' => 'Masculino',
                 ])
-                ->rules('required'),
+                ->rules('required')
+                ->hideFromIndex(),
 
             Date::make('Birthday')
-                ->rules('required'),
+                ->rules('required')
+                ->hideFromIndex(),
 
             Text::make('Email')
-                    ->rules('email'),
+                    ->rules('email')
+                    ->hideFromIndex(),
 
             Text::make('Address')
                 ->hideFromIndex(),
@@ -140,7 +144,8 @@ class Student extends Resource
                 ->onlyOnIndex(),
 
             BelongsTo::make('User')
-                ->nullable(),
+                ->nullable()
+                ->hideFromIndex(),
 
             HasOne::make('Player', 'player', 'Naphyrion\GamificationSystem\Nova\Player'),
         ];

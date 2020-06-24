@@ -45,7 +45,8 @@ class Subject extends Resource
     {
         if(isset($this->pivot->teacher_id)) {
             return [
-                ID::make()->sortable(),
+                ID::make()->sortable()
+                    ->hideFromIndex(),
 
                 Text::make('name'),
 

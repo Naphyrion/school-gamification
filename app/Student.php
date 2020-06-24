@@ -19,6 +19,7 @@ class Student extends Model
     protected $casts = [
         'birthday'      => 'date',
         'enroll_date'   => 'date',
+        'withdraw_date' => 'date'
     ];
     //
     public function classroom()
@@ -40,8 +41,6 @@ class Student extends Model
     {
         return $this->withdraw_date == '';
     }
-
-
 
     //gamification system
 

@@ -35,4 +35,14 @@ class Classroom extends Model
     {
         return $this->grade->name . ' ' . $this->name;
     }
+
+    public function getStudentsCountAttribute()
+    {
+        return $this->students->where('enrolled', 1)->count();
+    }
+
+    public function getWithdrawStudentsCount()
+    {
+        return $this->students->where('enrolled', 0)->count();
+    }
 }
