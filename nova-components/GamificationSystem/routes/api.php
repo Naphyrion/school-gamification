@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/endpoint', function (Request $request) {
 //     //
 // });
+Route::resources([
+    'classrooms' => 'Naphyrion\GamificationSystem\Http\Controllers\ClassroomController',
+]);
