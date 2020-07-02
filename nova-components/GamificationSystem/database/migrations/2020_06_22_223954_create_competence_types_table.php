@@ -22,7 +22,7 @@ class CreateCompetenceTypesTable extends Migration
 
         Schema::table('competences', function (Blueprint $table) {
        
-            $table->foreignId('competence_types_id')->constrained();
+            $table->foreignId('competence_type_id')->constrained();
            
         });
     }

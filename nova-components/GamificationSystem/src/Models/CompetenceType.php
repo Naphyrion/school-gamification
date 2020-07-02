@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CompetenceType extends Model
 {
     //
-    public function competence()
+    public function competences()
    {
        return $this->hasMany('Naphyrion\GamificationSystem\Models\Competence');
    } 

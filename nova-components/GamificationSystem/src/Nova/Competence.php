@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\MorphToMany;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Competence extends \App\Nova\Resource
@@ -55,6 +56,7 @@ class Competence extends \App\Nova\Resource
             Avatar::make('Image'),
             Text::make('Name'),
             Number::make('Points'),
+            BelongsTo::make('CompetenceType'),
             MorphToMany::make('Tags'),
         ];
     }

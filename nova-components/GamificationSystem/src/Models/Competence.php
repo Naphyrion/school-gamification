@@ -15,6 +15,6 @@ class Competence extends Model
 
     public function competenceType()
     {
-        return $this->belongsTo('Naphyrion\GamificationSystem\Models\CompetenType');
+        return $this->belongsTo('Naphyrion\GamificationSystem\Models\CompetenceType');
     }
 }

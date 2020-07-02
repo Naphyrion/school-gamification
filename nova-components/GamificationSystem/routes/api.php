@@ -18,5 +18,7 @@ use Illuminate\Support\Facades\Route;
 //     //
 // });
 Route::resources([
-    'classrooms' => 'Naphyrion\GamificationSystem\Http\Controllers\ClassroomController',
+    'classrooms'        => 'Naphyrion\GamificationSystem\Http\Controllers\ClassroomController',
+    'competences'       => 'Naphyrion\GamificationSystem\Http\Controllers\CompetenceController',
+    'competence-types'  => 'Naphyrion\GamificationSystem\Http\Controllers\CompetenceTypeController',
 ]);
