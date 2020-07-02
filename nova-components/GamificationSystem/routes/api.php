@@ -22,3 +22,5 @@ Route::resources([
     'competences'       => 'Naphyrion\GamificationSystem\Http\Controllers\CompetenceController',
     'competence-types'  => 'Naphyrion\GamificationSystem\Http\Controllers\CompetenceTypeController',
 ]);
+
+Route::get('/competences/by-category/{id}', 'Naphyrion\GamificationSystem\Http\Controllers\CompetenceController@byCategory');

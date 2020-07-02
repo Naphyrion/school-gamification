@@ -1186,17 +1186,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CompetenceCard__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CompetenceCard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CompetenceCard__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Competences__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Competences___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Competences__);
 //
 //
 //
@@ -1212,7 +1203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
 
     components: {
-        CompetenceCard: __WEBPACK_IMPORTED_MODULE_0__CompetenceCard___default.a
+        Competences: __WEBPACK_IMPORTED_MODULE_0__Competences___default.a
     },
 
     data: function data() {
@@ -1223,19 +1214,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /**
      * Mount the component.
      */
-    mounted: function mounted() {
-        this.getCompetenceTypes();
-    },
+    mounted: function mounted() {},
 
     methods: {
-        getCompetenceTypes: function getCompetenceTypes() {
-            var _this = this;
-
-            axios.get('/nova-vendor/gamification-system/competence-types/').then(function (response) {
-                _this.competenceTypes = response.data.data;
-            });
-        },
-
         /**
          * Stop propogation of input events unless it's for an escape or enter keypress
          */
@@ -1331,15 +1312,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-   data: function data() {
-      return {};
-   },
 
-   mounted: function mounted() {},
+    props: {
+        typeId: Number
+    },
+    data: function data() {
+        return {
+            competences: {}
+        };
+    },
 
-   methods: {}
+    mounted: function mounted() {
+        this.getCompetences(this.typeId);
+    },
+
+    methods: {
+        getCompetences: function getCompetences(id) {
+            var _this = this;
+
+            axios.get('/nova-vendor/gamification-system/competences/by-category/' + id).then(function (response) {
+                _this.competences = response.data.data;
+            });
+        }
+    },
+    watch: {
+        typeId: function typeId(newTypeId, oldTypeId) {
+            this.getCompetences(newTypeId);
+        }
+    }
 });
 
 /***/ }),
@@ -1350,47 +1355,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass:
-          "bg-gray-100 border border-gray-200 m-1 p-1 rounded-lg w-32 h-32 overflow-hidden text-center"
-      },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("img", {
-          staticClass: "w-16 h-16 transform -translate-y-3 p-1",
-          attrs: { src: "/storage/" }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "text-sm" }, [_vm._v("Competencia")])
-      ]
-    )
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex flex-row-reverse" }, [
-      _c(
+  return _c(
+    "div",
+    { staticClass: "flex flex-row p-2" },
+    _vm._l(_vm.competences, function(competence) {
+      return _c(
         "div",
         {
+          key: competence.id,
           staticClass:
-            "h-8 w-8 bg-green-400 border-2 border-green-600 rounded-full transform translate-y-2 flex items-center"
+            "bg-gray-100 border border-gray-200 m-1 p-1 rounded-lg w-32 h-32 overflow-hidden text-center"
         },
         [
-          _c("span", { staticClass: "text-sm text-center w-full" }, [
-            _vm._v("5")
+          _c("div", { staticClass: "flex flex-row-reverse" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "h-8 w-8 bg-green-400 border-2 border-green-600 rounded-full transform translate-y-2 flex items-center"
+              },
+              [
+                _c("span", { staticClass: "text-sm text-center w-full" }, [
+                  _vm._v(_vm._s(competence.points))
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "w-16 h-16 transform -translate-y-3 p-1",
+            attrs: { src: "/storage/" + competence.image }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-sm" }, [
+            _vm._v(_vm._s(competence.name))
           ])
         ]
       )
-    ])
-  }
-]
+    }),
+    0
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -1420,36 +1426,9 @@ var render = function() {
           _vm._v("competences")
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex flex-row p-2" },
-          _vm._l(_vm.competenceTypes, function(competenceType) {
-            return _c(
-              "div",
-              {
-                key: competenceType.id,
-                staticClass:
-                  "bg-indigo-600 text-white text-center p-1 my-2 border rounded-lg w-1/2"
-              },
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(competenceType.name) +
-                    "\n            "
-                )
-              ]
-            )
-          }),
-          0
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex flex-row p-2" },
-          [_c("competence-card")],
-          1
-        )
-      ]
+        _c("Competences")
+      ],
+      1
     )
   ])
 }
@@ -1638,6 +1617,174 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(37)
+/* template */
+var __vue_template__ = __webpack_require__(38)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Competences.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3e4367af", Component.options)
+  } else {
+    hotAPI.reload("data-v-3e4367af", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CompetenceCard__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CompetenceCard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CompetenceCard__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    components: {
+        CompetenceCard: __WEBPACK_IMPORTED_MODULE_0__CompetenceCard___default.a
+    },
+
+    data: function data() {
+        return {
+            competenceTypes: {},
+            typeId: null,
+            clicked: false
+        };
+    },
+
+    mounted: function mounted() {
+        this.getCompetenceTypes();
+    },
+
+    methods: {
+        getCompetenceTypes: function getCompetenceTypes() {
+            var _this = this;
+
+            axios.get('/nova-vendor/gamification-system/competence-types/').then(function (response) {
+                _this.competenceTypes = response.data.data;
+                _this.clickHandled(_this.competenceTypes[0].id);
+            });
+        },
+        clickHandled: function clickHandled(id) {
+            this.typeId = id;
+            this.clicked = true;
+        }
+    }
+});
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "flex flex-row p-2" },
+        _vm._l(_vm.competenceTypes, function(competenceType) {
+          return _c(
+            "div",
+            {
+              key: competenceType.id,
+              staticClass:
+                "bg-indigo-600 text-white text-center p-1 my-2 border rounded-lg w-1/2",
+              on: {
+                click: function($event) {
+                  return _vm.clickHandled(competenceType.id)
+                }
+              }
+            },
+            [
+              _vm._v(
+                "\n                " +
+                  _vm._s(competenceType.name) +
+                  "\n        "
+              )
+            ]
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm.clicked
+        ? _c("competence-card", { attrs: { "type-id": _vm.typeId } })
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3e4367af", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

@@ -19,7 +19,7 @@ class CompetenceType extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
-            'competences'   => CompetenceResource::collection($this->competences)
+            //'competences'   => CompetenceResource::collection($this->competences)
         ];
     }
 }

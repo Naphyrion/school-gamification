@@ -8,6 +8,10 @@ use Naphyrion\GamificationSystem\Http\Resources\Competence as CompetenceResource
 
 class CompetenceController extends Controller
 {
+    public function byCategory($id)
+    {
+      return CompetenceResource::collection(Competence::where('competence_type_id',$id)->get());
+    }
     /**
      * Display a listing of the resource.
      *
